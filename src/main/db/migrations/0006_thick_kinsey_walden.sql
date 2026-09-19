@@ -1,0 +1,1 @@
+ALTER TABLE `school` ADD `stamp_path` text;

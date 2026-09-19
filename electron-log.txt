@@ -1,0 +1,6 @@
+✅ Database initialized
+✅ Invoices generated on startup
+✅ Teacher attendance updated on startup
+(node:146279) electron: Failed to load URL: file:///home/takibou/school-desktop/out/renderer/index.html with error: ERR_FILE_NOT_FOUND
+(Use `electron --trace-warnings ...` to show where the warning was created)
+[146279:0816/144245.216974:ERROR:interface_endpoint_client.cc(725)] Message 0 rejected by interface blink.mojom.WidgetHost

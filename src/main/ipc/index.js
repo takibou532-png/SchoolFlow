@@ -1,0 +1,41 @@
+import { registerStudentHandlers } from './student.handlers.js';
+import { registerModuleHandlers } from './module.handlers.js';
+import { registerSessionHandlers } from './session.handlers.js';
+import { registerAttendanceHandlers } from './attendance.handlers.js';
+import { registerInvoiceHandlers } from './invoice.handlers.js';
+import { registerPaymentHandlers } from './payment.handlers.js';
+import { registerSubjectHandlers } from './subject.handlers.js';
+import { registerClassroomHandlers } from './classroom.handlers.js';
+import { registerTeacherHandlers } from './teacher.handlers.js';
+import { registerCourseHandlers } from './course.handlers.js';
+import { registerCourseEnrollmentHandlers } from './course-enrollment.handlers.js';
+import { registerCourseAttendanceHandlers } from './course-attendance.handlers.js';
+import { registerCoursePaymentHandlers } from './course-payment.handlers.js';
+import { registerSchoolHandlers } from './school.handlers.js';
+import { registerExpenseHandlers } from './expense.handlers.js';
+import { registerPrintHandlers } from './print.handlers.js';
+import { registerEmployeeHandlers } from './employee.hanlers.js';
+import { registerEmployeePaymentHandlers } from './employee-payment.handlers.js';
+import { registerJobApplicationHandlers } from './job-application.handlers.js';
+
+export function registerAllHandlers() {
+  registerStudentHandlers();
+  registerModuleHandlers();
+  registerSessionHandlers();
+  registerAttendanceHandlers();
+  registerInvoiceHandlers();
+  registerPaymentHandlers();
+  registerSubjectHandlers();
+  registerClassroomHandlers();
+  registerTeacherHandlers();
+  registerCourseHandlers();
+  registerCourseEnrollmentHandlers();
+  registerCourseAttendanceHandlers();
+  registerCoursePaymentHandlers();
+  registerSchoolHandlers();
+  registerExpenseHandlers();
+  registerPrintHandlers();
+    registerEmployeeHandlers();
+  registerEmployeePaymentHandlers();
+  registerJobApplicationHandlers();
+}

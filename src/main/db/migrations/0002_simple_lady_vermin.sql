@@ -1,0 +1,1 @@
+ALTER TABLE `payment` ADD `total_sessions` integer;
