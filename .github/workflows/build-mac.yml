@@ -24,7 +24,7 @@ jobs:
         run: npm run build
 
       - name: Build macOS DMG (x64 + arm64)
-        run: npx electron-builder --mac --x64 --arm64
+        run: npx electron-builder --mac --x64 --arm64 --publish=never
         env:
           # Prevents electron-builder from trying to auto-sign/notarize
           CSC_IDENTITY_AUTO_DISCOVERY: false
