@@ -35,3 +35,51 @@ jobs:
           name: schoolflow-mac-dmg
           path: release/*.dmg
           retention-days: 30
+
+      - name: Simulate download quarantine flag
+        run: |
+          # When a real user downloads a DMG from the internet, macOS (via the browser)
+          # attaches this same quarantine attribute. We add it manually here to
+          # accurately reproduce what your client will experience.
+          xattr -w com.apple.quarantine "0181;00000000;Safari;" release/schoolFlow-1.0.0-arm64.dmg
+          xattr -l release/schoolFlow-1.0.0-arm64.dmg
+
+      - name: Mount DMG (x64)
+        run: |
+          hdiutil attach release/schoolFlow-1.0.0-x64.dmg -mountpoint /Volumes/schoolFlow-x64 -nobrowse
+          ls -la /Volumes/schoolFlow-x64
+
+      - name: Attempt to launch WITHOUT bypass (expected to fail/warn)
+        continue-on-error: true
+        run: |
+          cp -R "/Volumes/schoolFlow-x64/schoolFlow.app" /Applications/
+          xattr -w com.apple.quarantine "0181;00000000;Safari;" /Applications/schoolFlow.app
+          echo "Attempting launch with quarantine flag still present (this should fail, proving Gatekeeper blocks it):"
+          open -W /Applications/schoolFlow.app || echo "Launch blocked as expected (Gatekeeper working as documented)"
+
+      - name: Apply the bypass command (what we'll tell the client to run)
+        run: |
+          xattr -cr /Applications/schoolFlow.app
+          echo "Quarantine flag removed. Verifying:"
+          xattr -l /Applications/schoolFlow.app || echo "No extended attributes remain — clean"
+
+      - name: Launch app after bypass (should succeed)
+        run: |
+          open -a /Applications/schoolFlow.app
+          sleep 8
+          echo "Checking if app process is running:"
+          ps aux | grep -i schoolflow | grep -v grep
+          echo "Taking a screenshot for visual confirmation:"
+          screencapture -x /tmp/schoolflow-launch.png || echo "Screenshot failed (may be headless/no display)"
+
+      - name: Upload launch screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: launch-screenshot
+          path: /tmp/schoolflow-launch.png
+          if-no-files-found: ignore
+
+      - name: Unmount DMG
+        if: always()
+        run: hdiutil detach /Volumes/schoolFlow-x64 || true
